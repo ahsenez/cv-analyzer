@@ -7,56 +7,149 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <h1>CV Analyzer & Job Match</h1>
-        <p class="subtitle">CV yükle, becerileri analiz et, ATS puanı ve iş uyumu gör.</p>
+    <div class="page-shell">
+        <header class="hero">
+            <div class="hero-badge">AI Resume Review</div>
+            <h1>CV Analyzer & Job Match</h1>
+            <p class="hero-text">
+                Analyze resumes, detect skills, calculate ATS-style scores, and compare CVs
+                with job descriptions in a clean and modern interface.
+            </p>
+        </header>
 
-        <form method="POST" enctype="multipart/form-data" class="card">
-            <label>CV Dosyası Yükle (PDF veya DOCX)</label>
-            <input type="file" name="cv_file" accept=".pdf,.docx" required>
+        <main class="main-grid">
+            <section class="panel form-panel">
+                <div class="panel-header">
+                    <h2>Upload Resume</h2>
+                    <p>Upload your CV and paste a job description to get a quick analysis.</p>
+                </div>
 
-            <label>İş İlanı Metni</label>
-            <textarea name="job_description" rows="8" placeholder="Buraya iş ilanını yapıştır..."></textarea>
+                <form method="POST" enctype="multipart/form-data" class="analyzer-form">
+                    <label for="cv_file">Resume File</label>
+                    <input type="file" id="cv_file" name="cv_file" accept=".pdf,.docx" required>
 
-            <button type="submit">Analiz Et</button>
-        </form>
+                    <label for="job_description">Job Description</label>
+                    <textarea
+                        id="job_description"
+                        name="job_description"
+                        rows="8"
+                        placeholder="Paste the job description here..."
+                    ></textarea>
+
+                    <button type="submit">Analyze Resume</button>
+                </form>
+            </section>
+
+            <section class="panel info-panel">
+                <div class="panel-header">
+                    <h2>What this tool does</h2>
+                </div>
+
+                <div class="feature-list">
+                    <div class="feature-card">
+                        <span class="feature-icon">01</span>
+                        <div>
+                            <h3>Resume Parsing</h3>
+                            <p>Extracts text from PDF and DOCX resume files.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">02</span>
+                        <div>
+                            <h3>Skill Detection</h3>
+                            <p>Finds technical and professional keywords in your CV.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">03</span>
+                        <div>
+                            <h3>ATS Score</h3>
+                            <p>Calculates an ATS-style score based on sections and content.</p>
+                        </div>
+                    </div>
+
+                    <div class="feature-card">
+                        <span class="feature-icon">04</span>
+                        <div>
+                            <h3>Job Match</h3>
+                            <p>Compares your resume with a target job description.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
 
         {% if result %}
-        <div class="results">
-            <div class="card">
-                <h2>Sonuçlar</h2>
-                <p><strong>ATS Puanı:</strong> {{ result.ats_score }}/100</p>
-                <p><strong>İş Uyumu:</strong> %{{ result.match_score }}</p>
+        <section class="results-section">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <span class="stat-label">ATS Score</span>
+                    <div class="stat-value">{{ result.ats_score }}<span>/100</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ result.ats_score }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Job Match</span>
+                    <div class="stat-value">{{ result.match_score }}<span>%</span></div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: {{ result.match_score }}%;"></div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <span class="stat-label">Skills Found</span>
+                    <div class="stat-value">{{ result.skills|length }}<span> tags</span></div>
+                    <p class="mini-note">Detected from your uploaded resume.</p>
+                </div>
             </div>
 
-            <div class="card">
-                <h2>Tespit Edilen Beceriler</h2>
-                {% if result.skills %}
-                    <ul>
+            <div class="content-grid">
+                <section class="panel result-panel">
+                    <div class="panel-header">
+                        <h2>Detected Skills</h2>
+                    </div>
+
+                    {% if result.skills %}
+                    <div class="skills-wrap">
                         {% for skill in result.skills %}
-                            <li>{{ skill }}</li>
+                            <span class="skill-badge">{{ skill }}</span>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                        <p class="empty-text">No skills were detected.</p>
+                    {% endif %}
+                </section>
+
+                <section class="panel result-panel">
+                    <div class="panel-header">
+                        <h2>Suggestions</h2>
+                    </div>
+
+                    <ul class="suggestion-list">
+                        {% for suggestion in result.suggestions %}
+                            <li>{{ suggestion }}</li>
                         {% endfor %}
                     </ul>
-                {% else %}
-                    <p>Beceri bulunamadı.</p>
-                {% endif %}
+                </section>
             </div>
 
-            <div class="card">
-                <h2>Öneriler</h2>
-                <ul>
-                    {% for suggestion in result.suggestions %}
-                        <li>{{ suggestion }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-
-            <div class="card">
-                <h2>CV Önizleme</h2>
+            <section class="panel preview-panel">
+                <div class="panel-header">
+                    <h2>Resume Preview</h2>
+                    <p>Preview of extracted text from the uploaded file.</p>
+                </div>
                 <pre>{{ result.cv_preview }}</pre>
-            </div>
-        </div>
+            </section>
+        </section>
         {% endif %}
+
+        <footer class="site-footer">
+            <p>Built with Python, Flask, Scikit-learn, HTML, and CSS.</p>
+        </footer>
     </div>
 </body>
 </html>
