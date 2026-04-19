@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Analyzer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>CV Analyzer & Job Match</h1>
+        <p class="subtitle">CV yükle, becerileri analiz et, ATS puanı ve iş uyumu gör.</p>
+
+        <form method="POST" enctype="multipart/form-data" class="card">
+            <label>CV Dosyası Yükle (PDF veya DOCX)</label>
+            <input type="file" name="cv_file" accept=".pdf,.docx" required>
+
+            <label>İş İlanı Metni</label>
+            <textarea name="job_description" rows="8" placeholder="Buraya iş ilanını yapıştır..."></textarea>
+
+            <button type="submit">Analiz Et</button>
+        </form>
+
+        {% if result %}
+        <div class="results">
+            <div class="card">
+                <h2>Sonuçlar</h2>
+                <p><strong>ATS Puanı:</strong> {{ result.ats_score }}/100</p>
+                <p><strong>İş Uyumu:</strong> %{{ result.match_score }}</p>
+            </div>
+
+            <div class="card">
+                <h2>Tespit Edilen Beceriler</h2>
+                {% if result.skills %}
+                    <ul>
+                        {% for skill in result.skills %}
+                            <li>{{ skill }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Beceri bulunamadı.</p>
+                {% endif %}
+            </div>
+
+            <div class="card">
+                <h2>Öneriler</h2>
+                <ul>
+                    {% for suggestion in result.suggestions %}
+                        <li>{{ suggestion }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+            <div class="card">
+                <h2>CV Önizleme</h2>
+                <pre>{{ result.cv_preview }}</pre>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
