@@ -7,6 +7,7 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
+os.makedirs(app.config["UPLOAD_FOLDER"], exist_ok=True)
 
 SKILLS = [
     "python", "sql", "excel", "power bi", "tableau", "java", "c++", "html", "css",
