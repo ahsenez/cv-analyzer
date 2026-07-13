@@ -29,8 +29,6 @@ Built with **Flask** and designed to help job seekers optimize their resumes for
 
 ---
 
-## 📂 Project Structure
 
-## Preview
-
+## 📸 Screenshots
 ![Project Screenshot](screenshot.png)
