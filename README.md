@@ -1,8 +1,8 @@
 # 📄 CV Analyzer
 
-An AI-powered CV analysis tool that evaluates resumes, calculates ATS compatibility scores, and matches candidates with job descriptions.
+An AI-powered CV analysis tool that evaluates resumes, calculates ATS compatibility scores, and matches candidates with job descriptions
 
-Built with **Flask** and designed to help job seekers optimize their resumes for Applicant Tracking Systems (ATS).
+Built with **Flask** and designed to help job seekers optimize their resumes for Applicant Tracking Systems (ATS)
 
 ---
 
