@@ -17,3 +17,18 @@ def extract_text_from_pdf(file_path):
         print(f"PDF okunurken hata oluştu: {e}")
 
     return text
+
+
+def extract_text_from_docx(file_path):
+    text = ""
+
+    try:
+        doc = Document(file_path)
+
+        for para in doc.paragraphs:
+            text += para.text + "\n"
+
+    except Exception as e:
+        print(f"DOCX okunurken hata oluştu: {e}")
+
+    return text
