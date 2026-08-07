@@ -3,6 +3,7 @@ import os
 from docx import Document
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
+from services.parser import extract_text_from_pdf
 
 app = Flask(__name__)
 app.config["UPLOAD_FOLDER"] = "uploads"
