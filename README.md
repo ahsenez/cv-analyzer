@@ -19,7 +19,7 @@ Built with **Flask** and designed to help job seekers optimize their resumes for
 
 ## 🛠️ Technologies
 
-- Python
+- 
 - Flask
 - HTML5
 - CSS3
