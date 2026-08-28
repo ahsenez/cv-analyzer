@@ -32,5 +32,3 @@ Built with **Flask** and designed to help job seekers optimize their resumes for
 
 ## 📸 Screenshots
 ![Project Screenshot](screenshot.png)
-
-ahsen ezgün
